@@ -186,26 +186,26 @@ def animate_with_arduino_data(arduino_data):
         #         armature_name, "mixamorig:RightArm", right_arm_bone_data
         #     )
 
-arm_data = {
-"X":90,
-"Y":0,
-"Z":0
-}
+# arm_data = {
+# "X":90,
+# "Y":0,
+# "Z":0
+# }
 
-# animate_arm( armature_name, "mixamorig:LeftArm", arm_data )
+# # animate_arm( armature_name, "mixamorig:LeftArm", arm_data )
 
-print('\n\n\n\n\n\n\n\n\n\n')
-animate_with_arduino_data({
-    "mixamorig:LeftArm.X": 0,
-    "mixamorig:LeftArm.Y": 45,
-    "mixamorig:LeftArm.Z": 0,
-    "mixamorig:RightArm.X": -0,
-    "mixamorig:RightArm.Y": 0,
-    "mixamorig:RightArm.Z": -0,
-    "mixamorig:RightForeArm.Z": -0,
-    "mixamorig:LeftForeArm.Z":  0
-})
-print('\n\n\n\n\n\n\n\n\n\n')
+# print('\n\n\n\n\n\n\n\n\n\n')
+# animate_with_arduino_data({
+#     "mixamorig:LeftArm.X": 0,
+#     "mixamorig:LeftArm.Y": 45,
+#     "mixamorig:LeftArm.Z": 0,
+#     "mixamorig:RightArm.X": -0,
+#     "mixamorig:RightArm.Y": 0,
+#     "mixamorig:RightArm.Z": -0,
+#     "mixamorig:RightForeArm.Z": -0,
+#     "mixamorig:LeftForeArm.Z":  0
+# })
+# print('\n\n\n\n\n\n\n\n\n\n')
 
 # local_x, local_y, local_z = get_bone_local_axes('Armature','mixamorig:LeftArm')
 # world_x, world_y, world_z = get_bone_world_axes('Armature','mixamorig:LeftArm')

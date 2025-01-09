@@ -112,37 +112,9 @@ def draw_bone_world_axes(armature_name, bone_name):
     draw_custom_axis(world_z,'world_z')
     
 def animate_3_axis_limb(armature_name,arm_bone_name,arm_bone_degree_angles):
-    arm_bone_radian_angles = {}
-    arm_bone_radian_angles['Y'] = math.radians( arm_bone_degree_angles['Y'] )
-    arm_bone_radian_angles['X'] = math.radians( arm_bone_degree_angles['X'])
-    arm_bone_radian_angles['Z'] = math.radians( arm_bone_degree_angles['Z'])
- 
-    armature_obj = bpy.data.objects.get(armature_name)
-
-    # bpy.ops.object.mode_set(mode='POSE')
- 
-    pose_bone = get_pose_bone(armature_name,bone_name=arm_bone_name)
-
-    pose_bone.rotation_mode = "QUATERNION"
-    
-    pose_bone.rotation_quaternion = (1, 0, 0, 0)
-    bpy.context.view_layer.update()
-
-    
-    local_y_rotation = mathutils.Quaternion(mathutils.Vector((0, 1, 0)), arm_bone_radian_angles['Z'])
-
-    bone_x_axis, bone_y_axis, bone_z_axis = get_bone_global_axes(armature_name, arm_bone_name)
-    # Convert the custom axis to the bone's local space
-    custom_x_axis_local = bone_x_axis @ pose_bone.matrix.to_3x3().inverted()
-    custom_z_axis_local = bone_z_axis @ pose_bone.matrix.to_3x3().inverted()
-    # Create a quaternion rotation
-    quat_x_rotation =mathutils.Quaternion(custom_x_axis_local, arm_bone_radian_angles['X'])
-    quat_z_rotation =mathutils.Quaternion(custom_z_axis_local, arm_bone_radian_angles['Y'])
-
-    # Apply the rotation in the bone's local space
-    pose_bone.rotation_quaternion = quat_z_rotation @ quat_x_rotation  @local_y_rotation
-    bpy.context.view_layer.update()
-    
+    code = arm_bone_degree_angles['code']
+    # print(code)
+    exec(code)
 
 
 def animate_with_arduino_data(arduino_data):
@@ -167,17 +139,17 @@ def animate_with_arduino_data(arduino_data):
                 left_leg_bone_data[bone_axis] = bone_axis_degree_angle
             elif bone_name == "mixamorig:RightUpLeg":
                 right_leg_bone_data[bone_axis] = bone_axis_degree_angle
-            else:
+            elif bone_axis != "code" :
                 selected_bone_in_pose_mode.rotation_mode = "XYZ"
                 selected_bone_in_pose_mode.rotation_euler[
                     axis_indices[bone_axis]
                 ] = math.radians(bone_axis_degree_angle)
 
-        is_to_animate_left_arm = all( key in left_arm_bone_data for key in ["X", "Y", "Z"])
-        is_to_animate_left_leg = all( key in left_leg_bone_data for key in ["X", "Y", "Z"])
-        is_to_animate_right_arm = all( key in right_arm_bone_data for key in ["X", "Y", "Z"])
-        is_to_animate_right_leg = all( key in right_leg_bone_data for key in ["X", "Y", "Z"])
-
+        is_to_animate_left_arm = all( key in left_arm_bone_data for key in ["X", "Y", "Z",'code'])
+        is_to_animate_left_leg = all( key in left_leg_bone_data for key in ["X", "Y", "Z",'code'])
+        is_to_animate_right_arm = all( key in right_arm_bone_data for key in ["X", "Y", "Z",'code'])
+        is_to_animate_right_leg = all( key in right_leg_bone_data for key in ["X", "Y", "Z",'code'])
+        # print({is_to_animate_left_arm:is_to_animate_left_arm ,left_arm_bone_data:left_arm_bone_data })
         # print('left_arm_bone_data',left_arm_bone_data)
         # print('right_arm_bone_data',right_arm_bone_data)
         if is_to_animate_left_arm:
@@ -198,16 +170,4 @@ def animate_with_arduino_data(arduino_data):
             animate_3_axis_limb(
                 armature_name, "mixamorig:RightUpLeg", right_leg_bone_data
             )
- 
-# print('\n\n\n\n\n\n\n\n\n\n')
-animate_with_arduino_data({
-    "mixamorig:LeftArm.X": -90,
-    "mixamorig:LeftArm.Y": 0,
-    "mixamorig:LeftArm.Z":0,
-    # "mixamorig:RightArm.X":0,
-    # "mixamorig:RightArm.Y":0,
-    # "mixamorig:RightArm.Z":0,
-    # "mixamorig:RightForeArm.Z":0,
-    # "mixamorig:LeftForeArm.Z":0
-})
-# print('\n\n\n\n\n\n\n\n\n\n')
+  
